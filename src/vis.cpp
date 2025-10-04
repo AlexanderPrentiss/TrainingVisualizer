@@ -2,19 +2,15 @@
 
 class vis {
 	private:
+		GLFWwindow* window;
+
 		static void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 			glViewport(0, 0, width, height);
 		}
 	public:
-		GLFWwindow* window;
-		int window_failed {0};
-		int glad_failed {0};
-		int glfw_failed {0};
-
 		vis() {
 			if (!glfwInit()) {
 			    std::cout << "Failed to init GLFW" << std::endl;
-			    this->glfw_failed = 1;
 			    return;
 			}
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -24,7 +20,6 @@ class vis {
 			this->window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
 			if (window == NULL) {
 			    std::cout << "Failed to create GLFW window" << std::endl;
-			    this->glad_failed = 1;
 			    glfwTerminate();
 			    return;
 			}
@@ -34,7 +29,6 @@ class vis {
 			if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 			{
 			    std::cout << "Failed to initialize GLAD" << std::endl; 
-			    this->glad_failed = 1;
 			    return;
 			}    
 
@@ -43,19 +37,13 @@ class vis {
 			glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 		}
 
-		void open_window() {
-			while(!glfwWindowShouldClose(this->window)) {
-				glfwSwapBuffers(window);
-				glfwPollEvents();
-			}
+		void update_window() {
+			glfwSwapBuffers(window);
+			glfwPollEvents();
 		}
 
-		int is_glad_failed() {
-			return this->glad_failed;
-		}
-
-		int is_window_failed() {
-			return this->window_failed;
+		int should_window_close() {
+			return glfwWindowShouldClose(this->window);
 		}
 		
 };
@@ -66,7 +54,15 @@ extern "C" {
 	}
 
 	void start_vis(vis* obj) {
-		obj->open_window();
+		obj->update_window();
+	}
+
+	void vis_exit(vis* obj) {
+		delete obj;
+	}
+
+	int vis_should_window_close(vis* obj) {
+		return obj->should_window_close();
 	}
 }
 
