@@ -1,4 +1,4 @@
-#include "vis.hpp"
+#include "all.h"
 
 class vis {
 	private:
@@ -17,13 +17,14 @@ class vis {
 		        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-			this->window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
+			this->window = glfwCreateWindow(800, 600, "TrainingVisualizer", NULL, NULL);
 			if (window == NULL) {
 			    std::cout << "Failed to create GLFW window" << std::endl;
 			    glfwTerminate();
 			    return;
 			}
 			glfwMakeContextCurrent(window);
+			glClearColor(0.1f, 0.1f, 0.1f, 1.0f); // dark gray background
 
 			
 			if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
