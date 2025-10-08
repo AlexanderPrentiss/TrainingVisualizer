@@ -2,7 +2,7 @@
 
 ## Building
 ```
-conan profile detect
+conan profile detect --force
 mkdir build
 cd build
 conan install .. --output-folder=. --build=missing
